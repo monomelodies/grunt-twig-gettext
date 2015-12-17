@@ -30,29 +30,31 @@ module.exports = function (grunt) {
                 var result;
                 var inline = /{% trans "(.*?)" %}/g;
                 var multiline = /{% trans %}((\n|.)*?){% endtrans %}/g;
+                var submatches = [];
                 while ((result = inline.exec(twig)) || (result = multiline.exec(twig))) {
-                    matches.push(result);
+                    submatches.push(result);
                 }
-                matches = matches.sort(function (a, b) {
+                matches = matches.concat(submatches.sort(function (a, b) {
                     return a.index < b.index ? -1 : 1;
-                });
-                // Replace variables
-                matches = matches.map(function (trans) {
-                    return trans[1].replace(/{{\s*(.*?)\s*}}/g, '%$1%');
-                });
-                // Format according to .pot
-                matches = matches.map(function (trans) {
-                    var lines = trans.split("\n");
-                    lines = lines.map(function (line) {
-                        line = ('' + line).replace(/\s+$/, '');
-                        line = '"' + line.replace(/"/g, '\\"') + '"';
-                        return line;
-                    });
-                    trans = lines.join("\n");
-                    return "msgid " + trans + "\nmsgstr \"\"";
-                });
-            }).join("\n");
+                }));
+            });
 
+            // Replace variables
+            matches = matches.map(function (trans) {
+                return trans[1].replace(/{{\s*(.*?)\s*}}/g, '%$1%');
+            });
+            // Format according to .pot
+            matches = matches.map(function (trans) {
+                var lines = trans.split("\n");
+                lines = lines.map(function (line) {
+                    line = ('' + line).replace(/\s+$/, '');
+                    line = '"' + line.replace(/"/g, '\\"') + '"';
+                    return line;
+                });
+                trans = lines.join("\n");
+                return "msgid " + trans + "\nmsgstr \"\"";
+            });
+            // Make unique (at least inside the file :))
             var unique = [];
             matches.map(function (match) {
                 if (unique.indexOf(match) == -1) {
