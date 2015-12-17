@@ -1,0 +1,18 @@
+{# Twig template to be used in testing #}
+
+{% block something %}
+
+    {% trans "This is a single line, inline string." %}
+
+    {% trans %}
+        This string spans multiple lines, and is embedded in HTML.
+    {% endtrans %}
+
+    {% trans "This contains a Twig variable: {{ varname }}." %}
+
+    {% trans %}
+        This is multiline {{ string }}, with multiple
+        {{ variables }} in various {{ places }}
+    {% endtrans %}
+{% endblock something %}
+
