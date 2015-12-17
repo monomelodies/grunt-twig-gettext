@@ -52,7 +52,7 @@ module.exports = function (grunt) {
                     var lines = trans.split("\n");
                     lines = lines.map(function (line) {
                         line = ('' + line).replace(/\s+$/, '');
-                        line = '"' + line.replace(/"/, '\\"') + '"';
+                        line = '"' + line.replace(/"/g, '\\"') + '"';
                         return line;
                     });
                     trans = lines.join("\n");
