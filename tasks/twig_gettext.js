@@ -48,10 +48,10 @@ module.exports = function (grunt) {
                 var lines = trans.trim().split("\n");
                 lines = lines.map(function (line) {
                     line = ('' + line).replace(/\s$/, '');
-                    line = '"' + line.replace(/"/g, '\\"') + '\\n"';
+                    line = '"' + line.replace(/"/g, '\\"');
                     return line;
                 });
-                trans = lines.join("\n");
+                trans = lines.join("\\n\"\n") + '"';
                 return "msgid " + trans + "\nmsgstr \"\"";
             });
             // Make unique (at least inside the file :))
