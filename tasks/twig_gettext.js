@@ -47,7 +47,7 @@ module.exports = function (grunt) {
             matches = matches.map(function (trans) {
                 var lines = trans.split("\n");
                 lines = lines.map(function (line) {
-                    line = ('' + line).replace(/\s+$/, '');
+                    line = ('' + line).trim();
                     line = '"' + line.replace(/"/g, '\\"') + '"';
                     return line;
                 });
