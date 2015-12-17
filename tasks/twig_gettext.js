@@ -45,9 +45,9 @@ module.exports = function (grunt) {
             });
             // Format according to .pot
             matches = matches.map(function (trans) {
-                var lines = trans.split("\n");
+                var lines = trans.trim().split("\n");
                 lines = lines.map(function (line) {
-                    line = ('' + line).trim();
+                    line = ('' + line).replace(/\s$/, '');
                     line = '"' + line.replace(/"/g, '\\"') + '"';
                     return line;
                 });
