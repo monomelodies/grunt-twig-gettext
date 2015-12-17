@@ -17,7 +17,8 @@ module.exports = function (grunt) {
         });
 
         this.files.forEach(function (f) {
-            var src = f.src.filter(function(filepath) {
+            var matches = [];
+            f.src.filter(function(filepath) {
                 if (!grunt.file.exists(filepath)) {
                     grunt.log.warn('Source file "' + filepath + '" not found.');
                     return false;
@@ -26,7 +27,6 @@ module.exports = function (grunt) {
                 }
             }).map(function(filepath) {
                 var twig = grunt.file.read(filepath);
-                var matches = [];
                 var result;
                 var inline = /{% trans "(.*?)" %}/g;
                 var multiline = /{% trans %}((\n|.)*?){% endtrans %}/g;
@@ -40,13 +40,6 @@ module.exports = function (grunt) {
                 matches = matches.map(function (trans) {
                     return trans[1].replace(/{{\s*(.*?)\s*}}/g, '%$1%');
                 });
-                var unique = [];
-                matches.map(function (trans) {
-                    if (unique.indexOf(trans) == -1) {
-                        unique.push(trans);
-                    }
-                });
-                matches = unique;
                 // Format according to .pot
                 matches = matches.map(function (trans) {
                     var lines = trans.split("\n");
@@ -58,16 +51,21 @@ module.exports = function (grunt) {
                     trans = lines.join("\n");
                     return "msgid " + trans + "\nmsgstr \"\"";
                 });
-                return matches.join("\n\n") + "\n";
             }).join("\n");
 
-            src = "#, fuzzy\n" +
+            var unique = [];
+            matches.map(function (match) {
+                if (unique.indexOf(match) == -1) {
+                    unique.push(match);
+                }
+            });
+            var src = "#, fuzzy\n" +
                 "msgid \"\"\n" +
                 "msgstr \"\"\n" +
                 "\"Language: \\n\"\n" +
                 "\"MIME-Version: 1.0\\n\"\n" +
                 "\"Content-Type: text/plain; charset=" + options.charset + "\\n\"\n" +
-                "\"Content-Transfer-Encoding: " + options.encoding + "\\n\"\n\n" + src;
+                "\"Content-Transfer-Encoding: " + options.encoding + "\\n\"\n\n" + unique.join("\n\n") + "\n";
             
             // Write the destination file.
             grunt.file.write(f.dest, src);
