@@ -28,10 +28,11 @@ module.exports = function (grunt) {
             }).map(function(filepath) {
                 var twig = grunt.file.read(filepath);
                 var result;
-                var inline = /{% trans "(.*?)" %}/g;
+                var inline1 = /{% trans "(.*?)" %}/g;
+                var inline2 = /{% trans '(.*?)' %}/g;
                 var multiline = /{% trans %}((\n|.)*?){% endtrans %}/g;
                 var submatches = [];
-                while ((result = inline.exec(twig)) || (result = multiline.exec(twig))) {
+                while ((result = inline1.exec(twig)) || (result = inline2.exec(twig)) || (result = multiline.exec(twig))) {
                     submatches.push(result);
                 }
                 matches = matches.concat(submatches.sort(function (a, b) {
