@@ -53,7 +53,24 @@ module.exports = function (grunt) {
                     return line;
                 });
                 trans = lines.join("\\n\"\n") + '"';
-                return "msgid " + trans + "\nmsgstr \"\"";
+                var has_notes = /{% notes %}((\n|.)*?)({%|$)/g;
+                var has_plural = /{% plural .*?%}((\n|.)*?)$/g;
+                var result = undefined;
+                var ret = '';
+                if (result = has_notes.exec(trans)) {
+                    ret += result[1].replace(/^"\s*/, '# ').replace(/"$/, '') + "\n";
+                    trans = trans.replace(result[0], result[1]);
+                }
+                if (result = has_plural.exec(trans)) {
+                    ret += "msgid_plural \"" + result[1] + "\"\n";
+                    trans = trans.replace(result[0], '');
+                }
+                ret = "msgid " + trans + "\n" + ret;
+                if (result) {
+                    return ret + "msgstr[0] \"\"\nmsgstr[1] \"\"";
+                } else {
+                    return ret + "msgstr \"\"";
+                }
             });
             // Make unique (at least inside the file :))
             var unique = [];
