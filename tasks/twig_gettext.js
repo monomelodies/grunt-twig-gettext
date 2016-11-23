@@ -46,27 +46,36 @@ module.exports = function (grunt) {
             });
             // Format according to .pot
             matches = matches.map(function (trans) {
-                var lines = trans.trim().split("\n");
+                trans = trans.trim();
+                var has_notes = /{% notes %}((\n|.)*?)({%|$)/g.exec(trans);
+                if (has_notes) {
+                    trans = trans.replace(has_notes[0], has_notes[3]);
+                }
+                var has_plural = /{% plural .*?%}((\n|.)*?)$/g.exec(trans);
+                if (has_plural) {
+                    trans = trans.replace(has_plural[0], '');
+                }
+                var lines = trans.split("\n");
                 lines = lines.map(function (line) {
                     line = ('' + line).replace(/\s$/, '');
                     line = '"' + line.replace(/"/g, '\\"');
                     return line;
                 });
                 trans = lines.join("\\n\"\n") + '"';
-                var has_notes = /{% notes %}((\n|.)*?)({%|$)/g;
-                var has_plural = /{% plural .*?%}((\n|.)*?)$/g;
                 var result = undefined;
                 var ret = '';
-                if (result = has_notes.exec(trans)) {
-                    ret += result[1].replace(/^"\s*/, '# ').replace(/"$/, '') + "\n";
-                    trans = trans.replace(result[0], result[1]);
+                if (has_notes) {
+                    has_notes[1].split('\n').map(function (note) {
+                        ret += '# ' + note + '\n';
+                    });
                 }
-                if (result = has_plural.exec(trans)) {
-                    ret += "msgid_plural \"" + result[1] + "\"\n";
-                    trans = trans.replace(result[0], '');
-                }
-                ret = "msgid " + trans + "\n" + ret;
-                if (result) {
+                ret += "msgid " + trans + "\n";
+                if (has_plural) {
+                    ret += "msgid_plural " + has_plural[1].split('\n').map(function (line) {
+                        line = ('' + line).replace(/\s$/, '');
+                        line = '"' + line.replace(/"/g, '\\"');
+                        return line;
+                    }).join("\\n\"\n") + "\"\n";
                     return ret + "msgstr[0] \"\"\nmsgstr[1] \"\"";
                 } else {
                     return ret + "msgstr \"\"";
