@@ -1,7 +1,7 @@
 {
   "name": "grunt-twig-gettext",
   "description": "Extract i18n strings from Twig templates",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "http://grunt-twig-gettext.monomelodies.nl",
   "author": {
     "name": "Marijn Ophorst",
