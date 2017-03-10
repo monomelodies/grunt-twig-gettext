@@ -9,16 +9,24 @@ msgstr ""
 msgid "This is a single line, inline string."
 msgstr ""
 
-msgid ""
-"        This string spans multiple lines, and is embedded in HTML."
-""
+msgid "This is a single line, inline string, spaces varying."
+msgstr ""
+
+msgid "This is a single line, inline string, spaces varying too."
+msgstr ""
+
+msgid "This is the trans filter"
+msgstr ""
+
+msgid "This is the trans filter, too"
+msgstr ""
+
+msgid "This string spans multiple lines, and is embedded in HTML."
 msgstr ""
 
 msgid "This contains a Twig variable: %varname%."
 msgstr ""
 
-msgid ""
-"        This is multiline %string%, with multiple"
+msgid "This is multiline %string%, with multiple\n"
 "        %variables% in various %places%"
-""
 msgstr ""
