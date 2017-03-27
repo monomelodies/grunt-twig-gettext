@@ -2,7 +2,7 @@
  * grunt-twig-gettext
  * http://grunt-twig-gettext.monomelodies.nl
  *
- * Copyright (c) 2015 Marijn Ophorst, Alvaro Maceda
+ * Copyright (c) 2015, 2017 Marijn Ophorst, Alvaro Maceda
  * Licensed under the MIT license.
  */
 
