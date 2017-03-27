@@ -4,8 +4,18 @@
 
     {% trans "This is a single line, inline string." %}
 
+    {%trans "This is a single line, inline string, spaces varying."     %}
+
+    {%  trans "This is a single line, inline string, spaces varying too."%}
+
+    {{ 'This is the trans filter' | trans }}
+
+    {{ "This is the trans filter, too" | trans | upper }}
+
+    {{ "This is another filter, but not a translation" | transilvania }}
+
     {% trans %}
-        This string spans multiple lines, and is embedded in HTML.
+    This string spans multiple lines, and is embedded in HTML.
     {% endtrans %}
 
     {% trans "This contains a Twig variable: {{ varname }}." %}
@@ -15,4 +25,3 @@
         {{ variables }} in various {{ places }}
     {% endtrans %}
 {% endblock something %}
-
