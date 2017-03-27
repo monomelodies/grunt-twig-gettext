@@ -138,23 +138,15 @@ Extractor.prototype = (function() {
     }
 
     return {
-
-        constructor:Extractor,
-
-        // Public method
-        generatePoContents:function(files) {
-
+        constructor: Extractor,
+        generatePoContents: function (files) {
             that = this;
-
             var matches = [];
-
             matches = obtainMatchesInAllFiles(files, matches);
             matches = transformTwigVariablesInGettextVariables(matches);
             var entries = formatTranslationsAccordingToPot(matches);
-
             return generatePoContents(removeDuplicatedEntries(entries));
         }
-
     };
 })();
 
