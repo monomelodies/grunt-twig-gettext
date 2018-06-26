@@ -40,7 +40,7 @@ Extractor.prototype = (function() {
             var lines = trans.split("\n");
             lines = lines.map(function (line) {
                 line = ('' + line).replace(/\s$/, '');
-                line = '"' + line.replace(/"/g, '\\"');
+                line = '"' + line.replace(/(?<!\\)"/g, '\\"');
                 return line;
             });
             trans = lines.join("\\n\"\n") + '"';
@@ -55,7 +55,7 @@ Extractor.prototype = (function() {
             if (has_plural) {
                 ret += "msgid_plural " + has_plural[1].split('\n').map(function (line) {
                         line = ('' + line).replace(/\s$/, '');
-                        line = '"' + line.replace(/"/g, '\\"');
+                        line = '"' + line.replace(/"(?<!\\)/g, '\\"');
                         return line;
                     }).join("\\n\"\n") + "\"\n";
                 return ret + "msgstr[0] \"\"\nmsgstr[1] \"\"";
