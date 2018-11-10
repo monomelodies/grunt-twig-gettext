@@ -30,8 +30,8 @@ grunt.initConfig({
     },
     your_target: {
       // Target-specific file lists and/or options go here.
-    },
-  },
+    }
+  }
 });
 ```
 
@@ -58,10 +58,12 @@ Extract translatable strings from all Twig templates in a directory and its subd
 grunt.initConfig({
   twig_gettext: {
     options: {},
-    files: {
-      'dest/domain.po': ['src/**/*.twig', 'dist/**/*.twig'],
-    },
-  },
+    your_target: {
+        files: {
+          'dest/domain.po': ['src/**/*.twig', 'dist/**/*.twig'],
+        }
+    }
+  }
 });
 ```
 
@@ -74,9 +76,11 @@ grunt.initConfig({
     options: {
       charset: 'UTF-8'
     },
-    files: {
-      'dest/domain.po': ['src/**/*.twig'],
-    },
+    your_target: {
+        files: {
+          'dest/domain.po': ['src/**/*.twig'],
+        }
+    }
   },
 });
 ```
